@@ -1,4 +1,4 @@
-# EdgeTTS Web
+# EdgeSpeak
 
 基于微软 Edge 在线语音合成（[edge-tts](https://github.com/rany2/edge-tts)）的本地 Web 应用：
 **Python FastAPI 后端 + 原生 HTML/JS 前端**，界面复刻 WinUI 11 设计。
@@ -13,6 +13,7 @@
 - 💾 **一键下载**：以 `语音名_时间戳.mp3` 命名保存
 - 🌗 **主题**：跟随系统 / 手动切换浅色与深色，语音选择记忆在本地
 - ⌨️ **快捷键**：`Ctrl + Enter` 快速生成；滑块支持方向键微调
+- 🖥️ **桌面模式**：Windows 下可用系统 WebView2（Edge Chromium）内核在独立窗口中运行，无需浏览器
 
 ## 界面样式
 
@@ -35,6 +36,42 @@ python -m uvicorn backend.app:app --host 127.0.0.1 --port 8000
 ```
 
 Windows 下也可直接双击 `run.bat`。
+
+### 桌面模式（WebView2）
+
+Windows 下可封装为独立桌面窗口运行，不再依赖浏览器标签页：
+
+```bash
+# 桌面模式依赖在 backend/requirements.txt 中（pywebview）
+pip install -r backend/requirements.txt
+
+# 启动桌面窗口
+python desktop/app_desktop.py
+```
+
+也可直接双击 `run-desktop.bat`（首次运行会自动补装依赖）。
+
+- 窗口使用系统 **WebView2 运行时**（Win10/11 自带，如缺失可从微软官网安装）。
+- 后端由本地 uvicorn 线程承载，端口自动分配（避免与 Web 版 8000 冲突），关闭窗口即退出服务。
+- 主题 / 音色的 localStorage 记忆持久化在 `%LOCALAPPDATA%\EdgeSpeak\WebView2`。
+
+### 打包为 exe（仿 RE4x 发布形式）
+
+无需安装 Python，解压双击 `EdgeSpeak.exe` 即用的便携版：
+
+```bash
+pip install pyinstaller            # 打包工具
+
+python package_release.py          # 构建 exe 并打出 release/EdgeSpeak-v<版本>.zip
+python package_release.py 1.0.0    # 指定版本号（缺省用日期）
+python package_release.py --skip-build  # exe 已构建，仅重新打 zip
+```
+
+- 产物布局：项目根 `EdgeSpeak.exe` + `_internal/`（PyInstaller onedir 运行时数据）。
+- zip 内为 `EdgeSpeak/` 文件夹，附带 `README.md`、`LICENSE`、`RELEASE_INFO.txt`，资源管理器解压后双击 exe 即用。
+- 前端资源打包在 `_internal/frontend/`；窗口图标为 `desktop/icon.ico`（存在时自动嵌入）。
+- 打包过程缓存写在 `TMP/build/`，结束后自动清理。
+- `EdgeSpeak` 名称与 edgespeak.com 的产品无关联，语音能力来自开源库 edge-tts。
 
 ## API
 
@@ -60,7 +97,7 @@ Windows 下也可直接双击 `run.bat`。
 ## 项目结构
 
 ```
-EdgeTTS/
+EdgeSpeak/
 ├── backend/
 │   ├── app.py              # FastAPI 后端（API + 静态托管前端）
 │   └── requirements.txt
@@ -74,7 +111,13 @@ EdgeTTS/
 │   │   └── app.css              # 应用布局
 │   └── js/
 │       └── app.js          # 组件交互与 API 调用
-├── run.bat                 # Windows 一键启动
+├── desktop/
+│   ├── app_desktop.py      # WebView2 桌面壳（pywebview + 本地 uvicorn）
+│   └── build.spec          # PyInstaller spec（onedir 打包）
+├── package_release.py      # 一键打包：构建 exe + 打 release zip
+├── RELEASE_INFO.txt        # 随 zip 分发的版本/许可说明
+├── run.bat                 # Windows 一键启动（浏览器模式）
+├── run-desktop.bat         # Windows 一键启动（桌面窗口模式）
 └── README.md
 ```
 
@@ -96,3 +139,5 @@ EdgeTTS/
 | fastapi / pydantic | MIT |
 | uvicorn / starlette | BSD-3-Clause |
 | edge-tts | LGPL-3.0（其中 `srt_composer.py` 为 MIT） |
+| pywebview | BSD-3-Clause |
+| pythonnet（Windows 上 WebView2 绑定） | MIT |

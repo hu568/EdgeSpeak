@@ -1,7 +1,7 @@
 /* ============================================================
- * EdgeTTS Web - 前端逻辑
+ * EdgeSpeak - 前端逻辑
  * 组件交互按 WinUIonWeb 的类名与视觉规范以原生 JS 实现。
- * Copyright (C) 2026 EdgeTTS Web contributors
+ * Copyright (C) 2026 EdgeSpeak contributors
  * 本程序以 GNU GPL-3.0 协议发布（见项目根目录 LICENSE），不含任何担保。
  * ============================================================ */
 'use strict';
@@ -9,7 +9,7 @@
 const $ = (sel) => document.querySelector(sel);
 
 /* ---------------- 主题 ---------------- */
-const THEME_KEY = 'edgetts-theme';
+const THEME_KEY = 'edgespeak-theme';
 
 function applyTheme(mode) {
   const html = document.documentElement;
@@ -302,7 +302,7 @@ function selectVoice(shortName) {
   if (selectedVoice) {
     voiceComboContent.textContent = voiceLabel(selectedVoice);
     voiceComboContent.classList.remove('is-placeholder');
-    localStorage.setItem('edgetts-voice', selectedVoice.shortName);
+    localStorage.setItem('edgespeak-voice', selectedVoice.shortName);
   }
 }
 
@@ -322,7 +322,7 @@ async function loadVoices() {
     voices = data.voices;
     voices.sort((a, b) => a.locale.localeCompare(b.locale) || a.shortName.localeCompare(b.shortName));
     if (voices.length) {
-      const saved = localStorage.getItem('edgetts-voice');
+      const saved = localStorage.getItem('edgespeak-voice');
       if (saved && voices.some((v) => v.shortName === saved)) {
         selectVoice(saved);
       } else {
@@ -462,7 +462,7 @@ async function generate() {
     statusText.textContent = `合成完成（${elapsed} s）`;
     showInfo('is-success', '语音已生成', `${voiceLabel(selectedVoice)} · ${kb} KB · 用时 ${elapsed} 秒，可试听或下载。`);
     audio.play().catch(() => { /* 自动播放被浏览器策略拦截时静默忽略 */ });
-    localStorage.setItem('edgetts-voice', selectedVoice.shortName);
+    localStorage.setItem('edgespeak-voice', selectedVoice.shortName);
   } catch (err) {
     setProgress('off');
     statusText.textContent = '合成失败';
