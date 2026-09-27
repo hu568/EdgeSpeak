@@ -1,11 +1,11 @@
-"""EdgeTTS Web 后端服务。
+"""EdgeSpeak 后端服务。
 
 基于 FastAPI + edge-tts：
 - GET  /api/voices  获取微软 Edge 语音列表（带缓存）
 - POST /api/tts     文本转语音，以 audio/mpeg 流式返回
 - 静态托管 frontend/ 目录（访问 http://127.0.0.1:8000 即为前端页面）
 
-Copyright (C) 2026 EdgeTTS Web contributors
+Copyright (C) 2026 EdgeSpeak contributors
 本程序以 GNU GPL-3.0 协议发布（见项目根目录 LICENSE），不含任何担保。
 
 启动：python -m uvicorn backend.app:app --host 127.0.0.1 --port 8000
@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import io
 import re
+import sys
 import time
 from pathlib import Path
 
@@ -26,13 +27,18 @@ from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+# PyInstaller 打包后（onedir）frontend/ 位于 _internal/ 下，即 sys._MEIPASS；
+# 源码运行时则取仓库根目录
+if getattr(sys, "frozen", False):
+    BASE_DIR = Path(getattr(sys, "_MEIPASS", Path(sys.executable).parent))
+else:
+    BASE_DIR = Path(__file__).resolve().parent.parent
 FRONTEND_DIR = BASE_DIR / "frontend"
 
 VOICES_CACHE_TTL = 3600  # 语音列表缓存 1 小时
 MAX_TEXT_LENGTH = 8000   # 单次合成文本长度上限
 
-app = FastAPI(title="EdgeTTS Web", version="0.1.0")
+app = FastAPI(title="EdgeSpeak", version="1.0.0")
 
 _voices_cache: dict | None = None
 _voices_cached_at: float = 0.0

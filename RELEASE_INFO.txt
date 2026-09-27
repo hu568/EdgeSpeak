@@ -1,0 +1,43 @@
+================================================================
+  EdgeSpeak — 微软 Edge 在线语音合成本地应用
+  v1.0.0 — 桌面应用版（pywebview + WebView2）
+================================================================
+
+项目主页:
+  https://github.com/hu568
+
+许可协议:
+  GNU General Public License v3.0 (GPL-3.0)
+  详见 LICENSE 文件
+
+版权声明:
+  Copyright (C) 2026 EdgeSpeak contributors
+
+重要提示:
+  本软件为免费开源项目，仅供学习参考。
+  严禁用于任何商业倒卖行为。
+  如您为此软件付费，请即要求退款并举报。
+
+使用方法:
+  1. 解压 zip（资源管理器直接解压即可）
+  2. 双击 EdgeSpeak.exe
+  3. 选择音色、输入文本，点「生成语音」
+  4. 合成依赖微软 Edge 在线 TTS 服务，需可访问外网
+
+数据目录:
+  主题 / 音色等本地记忆保存在 %LOCALAPPDATA%\EdgeSpeak\WebView2
+
+第三方组件:
+  - edge-tts      (LGPL-3.0，其中 srt_composer.py 为 MIT)  https://github.com/rany2/edge-tts
+    （EdgeSpeak 的语音合成能力来自开源库 edge-tts，与 edgespeak.com 无关联）
+  - FastAPI       (MIT)           https://github.com/fastapi/fastapi
+  - Uvicorn       (BSD-3-Clause)  https://github.com/encode/uvicorn
+  - Starlette     (BSD-3-Clause)  https://github.com/encode/starlette
+  - pydantic      (MIT)           https://github.com/pydantic/pydantic
+  - pywebview     (BSD-3-Clause)  https://github.com/r0x0r/pywebview
+  - pythonnet     (MIT)           https://github.com/pythonnet/pythonnet
+  - aiohttp       (Apache-2.0)    https://github.com/aio-libs/aiohttp
+  - WinUIonWeb    (GPL-3.0)       https://github.com/Furry-Xiyi/WinUIonWeb
+    （前端 WinUI 设计令牌与控件样式提取自该上游，见 frontend/css 文件头部）
+
+================================================================

@@ -8,11 +8,21 @@ venv/
 # 运行产物
 *.log
 
-# 测试截图留档（本地）
-gui-test-screenshots/
+# 测试留档
+TMP/
+
+# 打包产物
+release/
+_internal/
+EdgeSpeak.exe
+EdgeSpeak/
+EdgeTTS.exe
+EdgeTTS/
 
 # IDE / 系统
 .idea/
 .vscode/
 Thumbs.db
 .DS_Store
+
+AGENTS.md
