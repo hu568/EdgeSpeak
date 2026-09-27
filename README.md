@@ -3,8 +3,6 @@
 基于微软 Edge 在线语音合成（[edge-tts](https://github.com/rany2/edge-tts)）的本地 Web 应用：
 **Python FastAPI 后端 + 原生 HTML/JS 前端**，界面复刻 WinUI 11 设计。
 
-![深色主题](gui-test-screenshots/t3_generate_success.png)
-
 ## 功能
 
 - 🎙️ **320+ 神经语音**：覆盖各语言区域，支持按名称 / 区域搜索，按 locale 分组展示
