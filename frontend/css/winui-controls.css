@@ -1,0 +1,847 @@
+/* ============================================================
+ * EdgeTTS Web - WinUI 控件样式
+ * 控件样式提取自 WinUIonWeb 项目（Vue 组件 → 原生 CSS 改写）：
+ *   https://github.com/Furry-Xiyi/WinUIonWeb  (MIT License)
+ * 依赖同目录 winui-theme.css 提供的设计令牌。
+ * ============================================================ */
+
+/* ---------- FontIcon ---------- */
+.win-font-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe Fluent Icons', 'Segoe MDL2 Assets', sans-serif;
+  font-style: normal;
+  line-height: 1;
+  user-select: none;
+}
+
+/* ---------- Button ---------- */
+.win-btn {
+  position: relative;
+  box-sizing: border-box;
+  border-left: var(--ButtonBorderThemeThickness, 1px) solid var(--ButtonBorderBrushCurrent, var(--ctrl-border));
+  border-top: var(--ButtonBorderThemeThickness, 1px) solid var(--ButtonBorderBrushTopCurrent, var(--ctrl-border));
+  border-right: var(--ButtonBorderThemeThickness, 1px) solid var(--ButtonBorderBrushCurrent, var(--ctrl-border));
+  border-bottom: var(--ButtonBorderThemeThickness, 1px) solid var(--ButtonBorderBrushBottomCurrent, var(--ctrl-border-accent));
+  border-radius: var(--ButtonCornerRadius, 4px);
+  padding: var(--ButtonPadding, 5px 11px 6px);
+  font-family: var(--ContentControlThemeFontFamily, 'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif);
+  font-size: var(--ControlContentThemeFontSize, 14px);
+  font-weight: normal;
+  min-height: 32px;
+  height: auto;
+  background: padding-box var(--ButtonBackgroundCurrent, var(--ctrl-fill-default));
+  color: var(--ButtonForegroundCurrent, var(--text-primary));
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background var(--fast-duration) var(--fast-out-slow-in), color var(--fast-duration);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.win-btn:hover {
+  --ButtonBackgroundCurrent: var(--ButtonBackgroundPointerOver, var(--ctrl-fill-secondary));
+  --ButtonForegroundCurrent: var(--ButtonForegroundPointerOver, var(--text-primary));
+}
+
+.win-btn:active {
+  --ButtonBackgroundCurrent: var(--ButtonBackgroundPressed, var(--ctrl-fill-tertiary));
+  --ButtonForegroundCurrent: var(--ButtonForegroundPressed, var(--text-secondary));
+}
+
+.win-btn:disabled {
+  --ButtonBackgroundCurrent: var(--ctrl-fill-disabled);
+  --ButtonForegroundCurrent: var(--text-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.win-btn.AccentButtonStyle {
+  --ButtonBackground: var(--accent-base);
+  --ButtonBackgroundPointerOver: var(--accent-hover);
+  --ButtonBackgroundPressed: var(--accent-pressed);
+  --ButtonForeground: var(--accent-text);
+  --ButtonForegroundPointerOver: var(--accent-text);
+  --ButtonForegroundPressed: var(--accent-text-secondary);
+  --ButtonForegroundDisabled: var(--text-disabled);
+  border-color: var(--accent-border);
+  border-bottom-color: var(--accent-border-accent);
+}
+
+.win-btn.AccentButtonStyle:disabled {
+  --ButtonBackgroundCurrent: var(--accent-fill-disabled);
+  border-color: transparent;
+}
+
+.win-btn.SubtleButtonStyle {
+  --ButtonBackground: transparent;
+  --ButtonBackgroundPointerOver: var(--subtle-secondary);
+  --ButtonBackgroundPressed: var(--subtle-tertiary);
+  --ButtonForeground: var(--text-primary);
+  --ButtonForegroundPointerOver: var(--text-primary);
+  --ButtonForegroundPressed: var(--text-secondary);
+  --ButtonForegroundDisabled: var(--text-disabled);
+  border-color: transparent;
+}
+
+.win-btn:focus-visible {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 1px;
+}
+
+/* ---------- TextBox ---------- */
+.win-textbox {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.win-textbox-header {
+  margin-bottom: 8px;
+  color: var(--text-primary);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.win-textbox-border {
+  position: relative;
+  min-height: 32px;
+  overflow: visible;
+  background: var(--ctrl-fill-default);
+  border: 1px solid var(--ctrl-border-rest);
+  border-bottom-color: var(--ctrl-strong-stroke);
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: background var(--fast-duration) var(--fast-out-slow-in);
+}
+
+.win-textbox-focus-border {
+  position: absolute;
+  inset: -1px;
+  z-index: 4;
+  display: none;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.win-textbox-focus-border::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--accent-base);
+}
+
+.win-textbox.is-hovered:not(.is-disabled) .win-textbox-border {
+  background: var(--ctrl-fill-secondary);
+}
+
+.win-textbox:active:not(.is-disabled):not(.is-focused) .win-textbox-border {
+  background: var(--ctrl-fill-tertiary);
+}
+
+.win-textbox.is-focused:not(.is-disabled) .win-textbox-border {
+  background: var(--ctrl-fill-input-active);
+}
+
+.win-textbox.is-focused:not(.is-disabled) .win-textbox-focus-border {
+  display: block;
+}
+
+.win-textbox-content {
+  display: flex;
+  align-items: stretch;
+  min-width: 0;
+  min-height: 30px;
+}
+
+.win-textbox-field {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5px 6px 6px 10px;
+  color: var(--text-primary);
+  background: transparent;
+  border: 0;
+  outline: 0;
+  font-family: 'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 20px;
+  user-select: text;
+}
+
+.win-textbox-textarea {
+  min-height: 76px;
+  height: auto;
+  resize: none;
+}
+
+.win-textbox-field::placeholder {
+  color: var(--text-secondary);
+  opacity: 1;
+}
+
+.win-textbox-description {
+  margin-top: 6px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.win-textbox.is-disabled {
+  pointer-events: none;
+}
+
+.win-textbox.is-disabled .win-textbox-border {
+  background: var(--ctrl-fill-disabled);
+}
+
+/* ---------- ComboBox ---------- */
+.win-combo-box {
+  position: relative;
+  display: inline-block;
+  min-width: 64px;
+  vertical-align: top;
+  color: var(--text-primary);
+  font-family: 'Segoe UI Variable', 'Segoe UI', system-ui, sans-serif;
+  font-size: 14px;
+}
+
+.win-combo-header {
+  display: block;
+  margin: 0 0 4px;
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.win-combo-btn {
+  width: 100%;
+  min-width: 120px;
+  padding: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 38px;
+  gap: 0;
+  align-items: stretch;
+  text-align: left;
+}
+
+.win-combo-content {
+  min-width: 0;
+  padding: 5px 0 7px 12px;
+  display: block;
+  box-sizing: border-box;
+  overflow: hidden;
+  line-height: 20px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.win-combo-content.is-placeholder {
+  color: var(--text-secondary);
+}
+
+.win-combo-drop-down-button {
+  grid-row: 1;
+  grid-column: 2;
+  z-index: 1;
+  appearance: none;
+  width: 30px;
+  min-width: 30px;
+  height: 24px;
+  margin: 4px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 0;
+  border-radius: 4px;
+}
+
+.win-combo-drop-down-button:hover {
+  background: var(--subtle-secondary);
+}
+
+.win-combo-drop-down-button:active {
+  background: var(--subtle-tertiary);
+}
+
+.win-combo-chevron {
+  grid-row: 1;
+  grid-column: 2;
+  z-index: 2;
+  width: 12px;
+  height: 12px;
+  margin: 0 14px 0 0;
+  place-self: center end;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  color: var(--text-secondary);
+}
+
+.win-combo-box.is-disabled {
+  color: var(--text-disabled);
+}
+
+.win-combo-box.is-disabled .win-combo-btn,
+.win-combo-box.is-disabled .win-combo-chevron {
+  color: var(--text-disabled);
+  pointer-events: none;
+}
+
+.win-combo-flyout {
+  position: fixed;
+  z-index: 10001;
+  width: max-content;
+  min-width: 80px;
+  box-sizing: border-box;
+  overflow: hidden;
+  color: var(--text-primary);
+  background: var(--flyout-bg);
+  border: 1px solid var(--stroke-surface-flyout);
+  border-radius: 8px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  -webkit-backdrop-filter: var(--flyout-backdrop);
+  backdrop-filter: var(--flyout-backdrop);
+}
+
+.win-combo-flyout.edge-square-top {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.win-combo-flyout.edge-square-bottom {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.win-combo-items-presenter {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 4px 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.win-combo-item {
+  appearance: none;
+  position: relative;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  box-sizing: border-box;
+  color: var(--text-primary);
+  background: transparent;
+  border: 0;
+  border-radius: 3px;
+  cursor: pointer;
+  font: inherit;
+  line-height: 20px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.win-combo-item-layout {
+  position: relative;
+  width: calc(100% - 10px);
+  min-height: 32px;
+  margin: 2px 5px;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  border-radius: 3px;
+}
+
+.win-combo-item-content {
+  min-width: 0;
+  padding: 5px 11px 7px;
+  display: block;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.win-combo-item:hover .win-combo-item-layout,
+.win-combo-item.hovered .win-combo-item-layout {
+  background: var(--subtle-secondary);
+}
+
+.win-combo-item:active .win-combo-item-layout {
+  color: var(--text-secondary);
+  background: var(--subtle-tertiary);
+}
+
+.win-combo-item.selected .win-combo-item-layout {
+  background: var(--subtle-secondary);
+}
+
+.win-combo-item.selected:hover .win-combo-item-layout {
+  background: var(--subtle-tertiary);
+}
+
+.win-combo-item-pill {
+  position: absolute;
+  left: 1px;
+  top: 50%;
+  width: 3px;
+  height: 16px;
+  border-radius: 1.5px;
+  background: var(--accent-base);
+  transform: translateY(-50%);
+}
+
+.win-combo-group-header {
+  margin: 6px 5px 4px;
+  padding-left: 6px;
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+/* flyout 打开动画（复用 WinUIonWeb 的 flyout-enter） */
+.win-combo-flyout.flyout-animate {
+  animation: flyout-enter var(--fast-duration) var(--fast-out-slow-in) both;
+  transform-origin: top center;
+}
+
+.win-combo-flyout.flyout-animate.flipped {
+  transform-origin: bottom center;
+  animation-name: flyout-enter-flipped;
+}
+
+@keyframes flyout-enter-flipped {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- ToggleSwitch ---------- */
+.win-switch-root {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 154px;
+}
+
+.win-switch-header {
+  margin: 0 0 4px;
+}
+
+.win-switch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  --tx: 0px;
+  width: 40px;
+  height: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  touch-action: none;
+  flex-shrink: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.win-switch .track {
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  border: 1px solid var(--toggle-border);
+  background-color: var(--subtle-secondary);
+  transition: all var(--fast-duration) var(--fast-out-slow-in);
+}
+
+.win-switch:hover .track {
+  border-color: var(--text-primary);
+  background-color: var(--subtle-tertiary);
+}
+
+.win-switch.is-pressed:not(.is-on) .track {
+  border-color: var(--toggle-border);
+  background-color: var(--subtle-pressed);
+}
+
+.win-switch.is-on .track {
+  background-color: var(--accent-base);
+  border-color: transparent;
+}
+
+.win-switch.is-on:hover .track {
+  background-color: var(--accent-hover);
+}
+
+.win-switch.is-on.is-pressed .track {
+  background-color: var(--accent-pressed);
+}
+
+.win-switch .knob {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  transform: translateX(var(--tx));
+  transition: transform var(--fast-duration) var(--fast-out-slow-in);
+}
+
+.win-switch.is-on .knob {
+  --tx: 20px;
+}
+
+.win-switch .thumb {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: 6px;
+  background-color: var(--toggle-thumb);
+  transform: translate(-50%, -50%) translateX(-0.5px);
+  transition: width var(--fast-duration) var(--fast-out-slow-in), height var(--fast-duration) var(--fast-out-slow-in), background-color var(--fast-duration);
+}
+
+.win-switch.is-on .thumb {
+  background-color: var(--toggle-on-thumb);
+}
+
+.win-switch:hover .thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 7px;
+  background-color: var(--toggle-thumb-hover);
+}
+
+.win-switch:hover.is-on .thumb {
+  background-color: var(--toggle-on-thumb);
+}
+
+.win-switch-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 40px;
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+}
+
+.win-switch-label {
+  color: var(--text-primary);
+  user-select: none;
+  min-width: 20px;
+  cursor: pointer;
+}
+
+.win-switch.is-disabled,
+.win-switch-wrap.is-disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+.win-switch.is-disabled .track {
+  border-color: var(--ctrl-strong-stroke-disabled);
+  background-color: transparent;
+}
+
+.win-switch.is-disabled .thumb {
+  background-color: var(--ctrl-strong-stroke-disabled);
+}
+
+.win-switch.is-disabled.is-on .track {
+  background-color: var(--accent-fill-disabled);
+  border-color: transparent;
+}
+
+.win-switch.is-disabled.is-on .thumb {
+  background-color: var(--text-disabled);
+}
+
+/* ---------- Slider ---------- */
+.win-slider-root {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.win-slider-header {
+  margin: 0 0 8px;
+}
+
+.win-slider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  touch-action: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  min-width: 32px;
+  min-height: 32px;
+}
+
+.win-slider-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 4px;
+  border-radius: 2px;
+  background: var(--ctrl-strong-fill);
+  overflow: hidden;
+  z-index: 0;
+}
+
+.win-slider-fill {
+  height: 100%;
+  background: var(--accent-base);
+  border-radius: 2px;
+}
+
+.win-slider-thumb {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--ctrl-solid-fill);
+  border-left: 1px solid var(--ctrl-border);
+  border-top: 1px solid var(--ctrl-border);
+  border-right: 1px solid var(--ctrl-border);
+  border-bottom: 1px solid var(--ctrl-border-accent);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  display: grid;
+  place-items: center;
+  z-index: 2;
+  pointer-events: auto;
+  touch-action: none;
+}
+
+.win-slider-thumb::after {
+  content: "";
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent-base);
+  transform: scale(0.86);
+  transition: transform var(--fast-duration) var(--fast-out-slow-in), background-color var(--fast-duration);
+}
+
+.win-slider-thumb.is-pointer-over::after {
+  background: var(--accent-hover);
+  transform: scale(1.167);
+}
+
+.win-slider-thumb.is-pressed::after {
+  background: var(--accent-pressed);
+  transform: scale(0.71);
+}
+
+.win-slider-root.is-disabled {
+  opacity: 0.6;
+  cursor: default;
+  pointer-events: none;
+}
+
+.win-slider:focus-visible {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------- ProgressBar ---------- */
+.win-progress-bar {
+  --ProgressBarForeground: var(--accent-base);
+  --ProgressBarBackground: var(--ctrl-strong-stroke);
+  --ProgressBarErrorForegroundColor: #C42B1C;
+  position: relative;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 3px;
+  overflow: visible;
+  color: var(--ProgressBarForeground);
+}
+
+.win-progress-bar .ProgressBarTrack {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 1px;
+  min-height: 1px;
+  background: var(--ProgressBarBackground);
+  transform: translateY(-50%);
+  border-radius: 0.5px;
+  pointer-events: none;
+}
+
+.win-progress-bar .DeterminateProgressBarIndicator {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 3px;
+  min-height: 1px;
+  width: 0;
+  border-radius: 1.5px;
+  background: var(--ProgressBarForeground);
+  transform: none;
+  pointer-events: none;
+  transition: width 167ms cubic-bezier(0.4, 0, 0.6, 1), opacity 167ms linear;
+}
+
+.win-progress-bar.is-indeterminate .ProgressBarTrack,
+.win-progress-bar.is-indeterminate .DeterminateProgressBarIndicator {
+  opacity: 0;
+}
+
+.win-progress-bar .IndeterminateProgressBarIndicator,
+.win-progress-bar .IndeterminateProgressBarIndicator2 {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 3px;
+  border-radius: 1.5px;
+  opacity: 0;
+  background: var(--ProgressBarForeground);
+  pointer-events: none;
+}
+
+.win-progress-bar .IndeterminateProgressBarIndicator {
+  width: 40%;
+}
+
+.win-progress-bar .IndeterminateProgressBarIndicator2 {
+  width: 60%;
+}
+
+.win-progress-bar.is-indeterminate .IndeterminateProgressBarIndicator,
+.win-progress-bar.is-indeterminate .IndeterminateProgressBarIndicator2 {
+  opacity: 1;
+}
+
+.win-progress-bar.is-indeterminate .IndeterminateProgressBarIndicator {
+  animation: win-progress-bar-indeterminate 2s infinite;
+}
+
+.win-progress-bar.is-indeterminate .IndeterminateProgressBarIndicator2 {
+  animation: win-progress-bar-indeterminate-2 2s infinite;
+}
+
+.win-progress-bar.is-error .DeterminateProgressBarIndicator {
+  background: var(--ProgressBarErrorForegroundColor);
+}
+
+@keyframes win-progress-bar-indeterminate {
+  0%   { transform: translateX(-100%); }
+  75%  { transform: translateX(300%); }
+  100% { transform: translateX(300%); }
+}
+
+@keyframes win-progress-bar-indeterminate-2 {
+  0%     { transform: translateX(-150%); }
+  37.5%  { transform: translateX(-150%); }
+  100%   { transform: translateX(166%); }
+}
+
+/* ---------- InfoBar ---------- */
+.win-infobar {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  box-sizing: border-box;
+  min-height: 40px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-stroke);
+  font-size: 14px;
+  line-height: 20px;
+  animation: win-infobar-enter var(--normal-duration) var(--fast-out-slow-in) both;
+}
+
+.win-infobar.is-hidden {
+  display: none;
+}
+
+.win-infobar .infobar-icon {
+  flex: 0 0 auto;
+  font-size: 16px;
+  margin-top: 2px;
+}
+
+.win-infobar .infobar-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.win-infobar .infobar-title {
+  font-weight: 600;
+}
+
+.win-infobar .infobar-message {
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+  user-select: text;
+}
+
+.win-infobar.is-error {
+  background: var(--SystemFillColorCriticalBackgroundBrush, rgba(196, 43, 28, 0.08));
+  border-color: rgba(196, 43, 28, 0.25);
+}
+
+.win-infobar.is-error .infobar-icon {
+  color: var(--SystemFillColorCriticalBrush, #C42B1C);
+}
+
+.win-infobar.is-success {
+  background: var(--SystemFillColorSuccessBackgroundBrush, rgba(103, 203, 95, 0.08));
+  border-color: rgba(103, 203, 95, 0.25);
+}
+
+.win-infobar.is-success .infobar-icon {
+  color: var(--SystemFillColorSuccessBrush, #6CCB5F);
+}
+
+.win-infobar .infobar-close {
+  flex: 0 0 auto;
+  appearance: none;
+  width: 32px;
+  height: 32px;
+  margin: -4px -6px -4px 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 10px;
+}
+
+.win-infobar .infobar-close:hover {
+  background: var(--subtle-secondary);
+}
+
+@keyframes win-infobar-enter {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

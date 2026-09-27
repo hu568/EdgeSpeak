@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="theme-light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EdgeTTS 语音合成</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/winui-theme.css">
+  <link rel="stylesheet" href="css/winui-controls.css">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- ============ 标题栏 ============ -->
+    <header class="titlebar">
+      <div class="app-icon win-font-icon">&#xE720;</div>
+      <div class="title">EdgeTTS — 微软 Edge 语音合成</div>
+      <div class="spacer"></div>
+      <div class="titlebar-actions">
+        <button class="win-btn SubtleButtonStyle" id="themeBtn" title="切换主题" aria-label="切换主题">
+          <span class="win-font-icon" id="themeIcon">&#xE706;</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ============ 内容区 ============ -->
+    <main class="content">
+      <!-- SelectorBar：页面切换 -->
+      <nav class="selectorbar" id="selectorbar" role="tablist">
+        <button class="selectorbar-item is-selected" role="tab" aria-selected="true" data-page="page-tts">语音合成</button>
+        <button class="selectorbar-item" role="tab" aria-selected="false" data-page="page-about">使用说明</button>
+      </nav>
+
+      <div class="page is-active" id="page-tts">
+
+        <!-- 信息提示条 -->
+        <div class="win-infobar is-hidden" id="infobar" role="alert">
+          <span class="infobar-icon win-font-icon" id="infobarIcon">&#xE783;</span>
+          <div class="infobar-content">
+            <div class="infobar-title" id="infobarTitle">出错了</div>
+            <div class="infobar-message" id="infobarMsg"></div>
+          </div>
+          <button class="infobar-close win-font-icon" id="infobarClose" title="关闭">&#xE711;</button>
+        </div>
+
+        <!-- 页头 -->
+        <div class="page-header">
+          <h1>语音合成</h1>
+          <p>输入文本，选择语音与参数，在线生成并试听 MP3 语音。</p>
+        </div>
+
+        <div class="tts-grid">
+          <!-- ======== 左列：文本 + 播放器 ======== -->
+          <div class="tts-left">
+            <section class="card text-card">
+              <div class="win-textbox" id="textBox">
+                <label class="win-textbox-header" for="textInput">要转换的文本</label>
+                <div class="win-textbox-border">
+                  <div class="win-textbox-focus-border"></div>
+                  <div class="win-textbox-content">
+                    <textarea class="win-textbox-field win-textbox-textarea" id="textInput"
+                      placeholder="在此输入要合成的文本…（Ctrl + Enter 快速生成）"
+                      maxlength="8000"></textarea>
+                  </div>
+                </div>
+                <div class="win-textbox-description"><span id="charCount">0</span> / 8000 字符</div>
+              </div>
+
+              <div class="action-bar">
+                <button class="win-btn AccentButtonStyle" id="generateBtn">
+                  <span class="win-font-icon">&#xE768;</span>
+                  <span>生成语音</span>
+                </button>
+                <div class="win-progress-bar" id="ttsProgress" aria-hidden="true">
+                  <div class="ProgressBarTrack"></div>
+                  <div class="DeterminateProgressBarIndicator"></div>
+                  <div class="IndeterminateProgressBarIndicator"></div>
+                  <div class="IndeterminateProgressBarIndicator2"></div>
+                </div>
+                <span class="status-text" id="statusText">准备就绪</span>
+              </div>
+            </section>
+
+            <section class="card player-card">
+              <div class="card-title">试听</div>
+              <div class="player-main">
+                <button class="win-btn AccentButtonStyle player-play-btn" id="playBtn" disabled>
+                  <span class="win-font-icon" id="playIcon">&#xE768;</span>
+                </button>
+                <div class="win-slider" id="seekSlider" tabindex="0" role="slider"
+                  aria-label="播放进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                  <div class="win-slider-track"><div class="win-slider-fill"></div></div>
+                  <div class="win-slider-thumb"></div>
+                </div>
+                <span class="player-time" id="timeText">0:00 / 0:00</span>
+              </div>
+              <div class="player-actions">
+                <button class="win-btn" id="downloadBtn" disabled>
+                  <span class="win-font-icon">&#xE896;</span>
+                  <span>下载 MP3</span>
+                </button>
+                <span class="status-text" id="audioInfo"></span>
+              </div>
+              <audio id="audio" preload="auto"></audio>
+            </section>
+          </div>
+
+          <!-- ======== 右列：参数设置 ======== -->
+          <div class="tts-right">
+            <section class="card settings-card">
+              <div class="card-title">参数设置</div>
+
+              <!-- 语音选择 -->
+              <div class="win-combo-box" id="voiceCombo">
+                <span class="win-combo-header" id="voiceComboHeader">语音</span>
+                <button class="win-btn win-combo-btn" id="voiceComboBtn" aria-haspopup="listbox" aria-expanded="false">
+                  <span class="win-combo-content is-placeholder" id="voiceComboContent">正在加载语音列表…</span>
+                  <span class="win-combo-drop-down-button"></span>
+                  <span class="win-combo-chevron win-font-icon">&#xE70D;</span>
+                </button>
+              </div>
+
+              <div class="setting-row slider-row">
+                <div class="slider-caption">
+                  <span class="win-combo-header" style="margin:0">语速</span>
+                  <span class="value" id="rateValue">+0%</span>
+                </div>
+                <div class="win-slider" id="rateSlider" tabindex="0" role="slider"
+                  aria-label="语速" aria-valuemin="-100" aria-valuemax="100" aria-valuenow="0">
+                  <div class="win-slider-track"><div class="win-slider-fill"></div></div>
+                  <div class="win-slider-thumb"></div>
+                </div>
+              </div>
+
+              <div class="setting-row slider-row">
+                <div class="slider-caption">
+                  <span class="win-combo-header" style="margin:0">音调</span>
+                  <span class="value" id="pitchValue">+0Hz</span>
+                </div>
+                <div class="win-slider" id="pitchSlider" tabindex="0" role="slider"
+                  aria-label="音调" aria-valuemin="-50" aria-valuemax="50" aria-valuenow="0">
+                  <div class="win-slider-track"><div class="win-slider-fill"></div></div>
+                  <div class="win-slider-thumb"></div>
+                </div>
+              </div>
+
+              <div class="setting-row slider-row">
+                <div class="slider-caption">
+                  <span class="win-combo-header" style="margin:0">音量</span>
+                  <span class="value" id="volumeValue">+0%</span>
+                </div>
+                <div class="win-slider" id="volumeSlider" tabindex="0" role="slider"
+                  aria-label="音量" aria-valuemin="-100" aria-valuemax="100" aria-valuenow="0">
+                  <div class="win-slider-track"><div class="win-slider-fill"></div></div>
+                  <div class="win-slider-thumb"></div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ 使用说明页 ============ -->
+      <div class="page" id="page-about">
+        <div class="page-header">
+          <h1>使用说明</h1>
+          <p>关于本应用与相关项目。</p>
+        </div>
+
+        <section class="card about-card">
+          <div class="card-title">基本用法</div>
+          <p>1. 在左侧文本框输入要合成的内容（最长 8000 字符，Ctrl + Enter 快速生成）；<br>
+             2. 在右侧选择语音，拖动滑块调整语速、音调、音量；<br>
+             3. 点击「生成语音」，完成后即可在下方试听或下载 MP3。</p>
+        </section>
+
+        <section class="card about-card">
+          <div class="card-title">相关项目</div>
+          <p>本项目的界面样式基于 <a href="https://github.com/Furry-Xiyi/WinUIonWeb" target="_blank" rel="noopener">WinUIonWeb</a> 提取的 WinUI 设计令牌与控件样式；
+             语音合成能力来自 <a href="https://github.com/rany2/edge-tts" target="_blank" rel="noopener">edge-tts</a>（Microsoft Edge 在线 TTS 服务）。</p>
+          <ul class="about-list">
+            <li>后端：Python · FastAPI · edge-tts（流式返回 MP3）</li>
+            <li>前端：原生 HTML / CSS / JavaScript，无构建步骤</li>
+            <li>主题：跟随系统 / 手动切换亮色与暗色</li>
+          </ul>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

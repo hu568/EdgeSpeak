@@ -1,0 +1,386 @@
+/* ============================================================
+ * EdgeTTS Web - 应用布局样式（WinUI 应用观感）
+ * ============================================================ */
+
+html, body, #app {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- 标题栏 ---------- */
+.titlebar {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  height: 48px;
+  padding: 0 16px;
+  gap: 12px;
+  -webkit-app-region: drag;
+}
+
+.titlebar .app-icon {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-base);
+  font-size: 16px;
+}
+
+.titlebar .title {
+  font-size: 12.5px;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.titlebar .spacer {
+  flex: 1;
+}
+
+.titlebar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.titlebar-actions .win-btn {
+  min-height: 32px;
+  min-width: 32px;
+  padding: 4px 8px;
+}
+
+/* ---------- 主体 ---------- */
+.content {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden auto;
+  padding: 8px 24px 32px;
+}
+
+.page {
+  width: 100%;
+  max-width: 1000px;
+  display: none;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.page.is-active {
+  display: flex;
+  animation: page-enter var(--normal-duration) var(--fast-out-slow-in) both;
+}
+
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 36px;
+}
+
+.page-header p {
+  margin: 4px 0 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+/* ---------- SelectorBar（页面切换） ---------- */
+.selectorbar {
+  width: 100%;
+  max-width: 1000px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 4px;
+  margin-bottom: 4px;
+}
+
+.selectorbar-item {
+  appearance: none;
+  position: relative;
+  min-height: 36px;
+  padding: 8px 12px 10px;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.selectorbar-item:hover {
+  background: var(--subtle-secondary);
+  color: var(--text-primary);
+}
+
+.selectorbar-item:active {
+  background: var(--subtle-tertiary);
+  color: var(--text-secondary);
+}
+
+.selectorbar-item::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  width: 16px;
+  height: 3px;
+  border-radius: 1.5px;
+  background: var(--accent-base);
+  transform: translateX(-50%) scaleX(0);
+  transition: transform var(--normal-duration) var(--fast-out-slow-in);
+}
+
+.selectorbar-item.is-selected {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.selectorbar-item.is-selected::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+/* ---------- 卡片 ---------- */
+.card {
+  flex: 0 0 auto;
+  background: var(--card-bg);
+  border: 1px solid var(--card-stroke);
+  border-radius: 8px;
+  padding: 16px 20px;
+}
+
+.card + .card {
+  margin-top: 0;
+}
+
+.card-title {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 22px;
+}
+
+/* ---------- 合成页布局 ---------- */
+.tts-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 16px;
+  align-items: start;
+}
+
+.tts-left,
+.tts-right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.text-card .win-textbox-field {
+  min-height: 180px;
+  height: 180px;
+  resize: vertical;
+  line-height: 22px;
+}
+
+.action-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.action-bar .win-btn {
+  min-width: 120px;
+  min-height: 34px;
+}
+
+.action-bar .status-text {
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 16px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.action-bar .win-progress-bar {
+  flex: 1;
+  margin: 0 4px;
+  opacity: 0;
+  transition: opacity var(--normal-duration) var(--fast-out-slow-in);
+}
+
+.action-bar .win-progress-bar.is-visible {
+  opacity: 1;
+}
+
+/* ---------- 设置卡片 ---------- */
+.settings-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.setting-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.setting-row .row-value {
+  color: var(--text-secondary);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.slider-row {
+  width: 100%;
+}
+
+.slider-row .win-slider {
+  width: 100%;
+}
+
+.slider-row .slider-caption {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2px;
+}
+
+.slider-row .slider-caption .value {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.divider {
+  height: 1px;
+  background: var(--stroke-divider);
+  margin: 2px 0;
+}
+
+/* ---------- 试听播放器 ---------- */
+.player-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.player-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.player-play-btn {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  min-height: 40px;
+  min-width: 40px;
+  border-radius: 50%;
+  padding: 0;
+  font-size: 16px;
+}
+
+.player-main .win-slider {
+  flex: 1;
+}
+
+.player-time {
+  flex: 0 0 auto;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  min-width: 76px;
+  text-align: right;
+}
+
+.player-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.player-actions .win-btn {
+  min-height: 30px;
+}
+
+/* ---------- 关于页 ---------- */
+.about-card p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.about-card a {
+  color: var(--accent-base);
+  text-decoration: none;
+}
+
+.about-card a:hover {
+  text-decoration: underline;
+}
+
+.about-list {
+  margin: 8px 0 0;
+  padding-left: 20px;
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 26px;
+}
+
+/* ---------- 响应式 ---------- */
+@media (max-width: 860px) {
+  .tts-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .content {
+    padding: 8px 12px 24px;
+  }
+}
+
+/* ---------- 滚动条（WinUI 细样式） ---------- */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-clip: padding-box;
+  border: 4px solid transparent;
+  border-radius: 12px;
+  background-color: var(--ctrl-strong-fill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  border-width: 3px;
+  background-color: var(--text-secondary);
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
