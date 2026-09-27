@@ -2,7 +2,7 @@
  * EdgeTTS Web - WinUI 控件样式
  * 控件样式提取自 WinUIonWeb 项目（Vue 组件 → 原生 CSS 改写）：
  *   https://github.com/Furry-Xiyi/WinUIonWeb
- * 该部分遵循其原始 MIT 协议；本项目整体以 GPL-3.0 发布。
+ * 上游以 GNU GPL-3.0 发布；本文件随本项目整体以 GPL-3.0 发布。
  * 依赖同目录 winui-theme.css 提供的设计令牌。
  * ============================================================ */
 

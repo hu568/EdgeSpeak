@@ -16,7 +16,7 @@
 
 ## 界面样式
 
-前端样式提取自 [WinUIonWeb](https://github.com/Furry-Xiyi/WinUIonWeb)（MIT），
+前端样式提取自 [WinUIonWeb](https://github.com/Furry-Xiyi/WinUIonWeb)（GPL-3.0），
 将其中 Vue 控件的设计令牌与样式改写为原生 CSS（`frontend/css/winui-theme.css`、`winui-controls.css`），
 交互组件（ComboBox、Slider、SelectorBar、InfoBar 等）以原生 JavaScript 按相同类名规范实现。
 
@@ -87,4 +87,12 @@ EdgeTTS/
 
 本项目以 **GNU GPL-3.0** 协议发布（见 `LICENSE`）。
 其中 `frontend/css/winui-theme.css`、`winui-animations.css` 及 `winui-controls.css`
-中的控件样式提取自 WinUIonWeb（MIT 协议），该部分保留其原始版权声明（见各文件头部注释）。
+中的控件样式提取自 WinUIonWeb（上游同为 GPL-3.0，来源见各文件头部注释），随本项目整体以 GPL-3.0 发布。
+
+### 第三方依赖许可
+
+| 依赖 | 许可证 |
+|------|--------|
+| fastapi / pydantic | MIT |
+| uvicorn / starlette | BSD-3-Clause |
+| edge-tts | LGPL-3.0（其中 `srt_composer.py` 为 MIT） |
