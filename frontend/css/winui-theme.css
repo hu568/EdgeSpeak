@@ -1,3 +1,7 @@
+/*
+ * WinUI 设计令牌 — 提取自 WinUIonWeb (https://github.com/Furry-Xiyi/WinUIonWeb)
+ * 该文件保留其原始 MIT 协议版权；本项目整体以 GPL-3.0 发布。
+ */
 @property --app-bg {
   syntax: '<color>';
   inherits: true;

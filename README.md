@@ -85,4 +85,6 @@ EdgeTTS/
 
 ## License
 
-MIT（其中 CSS 设计令牌与控件样式来自 WinUIonWeb，见 `NOTICE`）
+本项目以 **GNU GPL-3.0** 协议发布（见 `LICENSE`）。
+其中 `frontend/css/winui-theme.css`、`winui-animations.css` 及 `winui-controls.css`
+中的控件样式提取自 WinUIonWeb（MIT 协议），该部分保留其原始版权声明（见各文件头部注释）。

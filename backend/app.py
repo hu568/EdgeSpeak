@@ -5,6 +5,9 @@
 - POST /api/tts     文本转语音，以 audio/mpeg 流式返回
 - 静态托管 frontend/ 目录（访问 http://127.0.0.1:8000 即为前端页面）
 
+Copyright (C) 2026 EdgeTTS Web contributors
+本程序以 GNU GPL-3.0 协议发布（见项目根目录 LICENSE），不含任何担保。
+
 启动：python -m uvicorn backend.app:app --host 127.0.0.1 --port 8000
       或直接 python backend/app.py
 """
